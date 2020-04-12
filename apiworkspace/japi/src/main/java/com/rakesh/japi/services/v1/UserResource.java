@@ -50,7 +50,8 @@ public class UserResource {
 			@ApiResponse(code = 400, message = "Failed: {\"error\" : \"Error Description\", \"status\":\"fail\"}") })
 
 	public Response getUserById(
-			@ApiParam(value = "userId", required = true, defaultValue = "23456", allowableValues = "", allowMultiple = false) @PathParam("userId") String userId) {
+			@ApiParam(value = "userId", required = true, defaultValue = "23456", allowableValues = "", allowMultiple = false) 
+			@PathParam("userId") String userId) {
 
 		log.info("UserResource :: getUserById started, userId=" + userId);
 

@@ -24,13 +24,16 @@ public class BusinessManager {
 		return businessManager;
 	}
 	
-	public User findUser(String userId) {
+	public User findUser(String userId) throws Exception {
 		
 		log.info("BusinessManager:: findUser started");
 		
-		User user = new User();
-		user.setId("12345");
-		user.setName("Rakesh");
+		User user = DataManager.getInstance().findUserById(userId);
+		
+		if(user == null) {
+			throw new Exception("User not found");
+		}
+		
 		return user;
 	}
 	
@@ -38,18 +41,7 @@ public class BusinessManager {
 		
 		log.info("BusinessManager:: findAllUsers started");
 		
-		List<User> users = new ArrayList<User>();
-		
-		User user1 = new User();
-		user1.setId("12345");
-		user1.setName("Rakesh Kumar");
-		
-		User user2 = new User();
-		user2.setId("12335");
-		user2.setName("Sudesh Deshpande");
-		
-		users.add(user1);
-		users.add(user2);
+		List<User> users = DataManager.getInstance().findAllUsers();
 		
 		return users;
 		
@@ -60,22 +52,21 @@ public class BusinessManager {
 		
 		log.info("BusinessManager:: addUser started");
 		
-		user.setId("12357");
-		return user;
+		User newUser = DataManager.getInstance().insertUser(user);
+
+		return newUser;
 		
 	}
 	
 	
-	public User updateUser(String userId, String attribute, String attributeValue) {
+	public User updateUser(String userId, String attribute, String attributeValue) throws Exception {
 		
 		log.info("BusinessManager:: updateUser started");
 		
-		User user = new User();
+		User user = DataManager.getInstance().updateUser(userId, attribute, attributeValue);
 		
-		user.setId(userId);
-		
-		if(attribute.equalsIgnoreCase("name")) {
-			user.setName(attributeValue);
+		if(user == null) {
+			throw new Exception("User not found.");
 		}
 		
 		return user;
@@ -83,9 +74,15 @@ public class BusinessManager {
 	}
 	
 	
-	public void deleteUser(String userId) {
+	public void deleteUser(String userId) throws Exception {
 		
 		log.info("BusinessManager:: deleteUser started");
+		
+		User user = DataManager.getInstance().deleteUser(userId);
+		
+		if(user == null) {
+			throw new Exception("User not found.");
+		}
 		
 		return;
 		
